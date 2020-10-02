@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+{{ parent() }}
+{% endblock %}
+{% block  stylesheets %}
+{{ parent() }}
+    <link href="{{ asset('css/chat.css') }}" rel="stylesheet"/>
+{% endblock %}
+{% block body %}
+{{ parent() }}
+<div class="container">
+    <div class="chat-div">
+        <div class="message-content">
+            {% for message in messages %}
+                <div class="content-text">
+                    <p>{{  message.content|raw }}</p>
+                    <p>By {{  message.first_name|raw }} at {{ message.date_create|date }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="chat-input-message">
+        <form method="post" class="form-message" name="input-message" action="{{ path('app_add_message')}}">
+            {% if app.user.id is defined %}
+                <input type="hidden" name="user_id" value="{{ app.user.id }}"/>
+            {% endif %}
+            <input type="text" name="message"/>
+            <input type="submit" name="validation" value="send"/>
+        </form>
+    </div>
+</div>
+    <div class="footer">
+        <a href="{{ path('app_logout') }}">se deconnecter</a>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+    <script type="application/javascript">
+
+
+    </script>
+{% endblock %}

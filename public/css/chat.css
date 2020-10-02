@@ -1,0 +1,33 @@
+.chat-div{
+
+}
+.container {
+    width: auto;
+    background-color: #AAAAAA;
+    height: 500px;
+}
+.message-content{
+    width: 50%;
+    background-color: #FFFFFF;
+}
+.form-message{
+    margin-left: 25%;
+    margin-top: 15px;
+}
+.chat-div{
+    width: 50%;
+    background-color: #FFFFFF;
+    height: 98%;
+    overflow-y: scroll;
+    margin-left: 25%;
+}
+.content-text{
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 10px;
+}
+input[type="text"]
+{
+    height: 100px;
+    width: 65%;
+}

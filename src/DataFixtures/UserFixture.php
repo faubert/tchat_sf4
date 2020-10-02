@@ -3,6 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\ApiToken;
+use App\Entity\Connexion;
+use App\Entity\Message;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -28,8 +30,18 @@ class UserFixture extends BaseFixture
                 'engage'
             ));
 
+            $message = new Message();
+            $message->setContent($this->faker->text);
+            $message->setDateCreate($this->faker->dateTimeBetween($startDate = '-30 years', $endDate = 'now', $timezone = null));
+            $connexion = new Connexion();
+            $connexion->setUser($user);
+            $connexion->setDateCon($this->faker->dateTimeBetween($startDate = '-30 years', $endDate = 'now', $timezone = null));
+            $message->setConnexion($connexion);
             $apiToken1 = new ApiToken($user);
             $apiToken2 = new ApiToken($user);
+
+            $manager->persist($connexion);
+            $manager->persist($message);
             $manager->persist($apiToken1);
             $manager->persist($apiToken2);
 

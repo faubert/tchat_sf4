@@ -8,13 +8,25 @@ use App\Entity\User;
 use App\Security\LoginFormAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Http\Firewall\LogoutListener;
 
 class SecurityController extends AbstractController
 {
+    private $kernel;
+
+    //private $logoutListener;
+
+    public function __construct(HttpKernelInterface $kernel/* LogoutListener $listener*/)
+    {
+        $this->kernel = $kernel;
+      //  $this->logoutListener = $listener;
+    }
+
     /**
      * @Route("/login", name="app_login")
      */
@@ -37,7 +49,7 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
-        throw new \Exception('Will be intercepted before getting here');
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
     /**
@@ -45,7 +57,6 @@ class SecurityController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $formAuthenticator)
     {
-        // TODO - use Symfony forms & validation
         if ($request->isMethod('POST')) {
             $user = new User();
             $user->setEmail($request->request->get('email'));

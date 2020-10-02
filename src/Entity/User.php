@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -39,6 +40,26 @@ class User implements UserInterface
      */
     private $firstName;
 
+  /*  /**
+     * @var ArrayCollection $messages
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="author", cascade={"persist", "remove"})
+     */
+    //private $messages;
+
+    /**
+     * @var ArrayCollection $connexions
+     * @ORM\OneToMany(targetEntity="Connexion", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $connexions;
+
+    private $is_connected;
+
+    public function __construct()
+    {
+        $this->messages = new ArrayCollection();
+        $this->connexions = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,6 +75,28 @@ class User implements UserInterface
         $this->email = $email;
 
         return $this;
+    }
+
+    /*public function getMessages()
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message)
+    {
+        $this->messages->add($message);
+        $message->setAuthor($this);
+    }*/
+
+    public function getConnexions()
+    {
+        return $this->connexions;
+    }
+
+    public function addConnexion(Connexion $connexion)
+    {
+        $this->connexions->add($connexion);
+        $connexion->setUser($this);
     }
 
     /**
@@ -127,5 +170,21 @@ class User implements UserInterface
         $this->firstName = $firstName;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsConnected()
+    {
+        return $this->is_connected;
+    }
+
+    /**
+     * @param mixed $is_connected
+     */
+    public function setIsConnected($is_connected): void
+    {
+        $this->is_connected = $is_connected;
     }
 }
